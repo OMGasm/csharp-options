@@ -2,19 +2,14 @@ namespace Options;
 
 public abstract class Option<T>
 {
-    public static implicit operator Option<T>(Task<NoneT> t) => new None<T>();
+    public static implicit operator Option<T>(Task<NoneT> t) => new NoneT<T>();
 
-    protected Option() { }
-
-    public override string ToString()
+    public override string ToString() => this switch
     {
-        return this switch
-        {
-            Some<T> some => $"Some({some.Unwrap()})",
-            None<T> none => "None",
-            Option<T> _ => throw new Exception()
-        };
-    }
+        NoneT<T> n => "None",
+        Some<T> s => $"Some({s.Unwrap()})",
+        _ => throw new Exception()
+    };
 
     public abstract T Unwrap();
 }
@@ -27,16 +22,17 @@ public sealed class Some<T> : Option<T>
     public override T Unwrap() => val;
 };
 
-public sealed class None<T> : Option<T>
+public sealed class NoneT<T> : Option<T>
 {
-    public override T Unwrap() => throw new Exception();
-}
+    public static implicit operator NoneT<T>(NoneT n) => new();
+    public override T Unwrap() => throw new NotImplementedException();
 
+}
 public sealed class NoneT;
 
 public sealed class Prelude
 {
     public static Some<T> Some<T>(T val) => new Some<T>(val);
-    public static Task<NoneT> None => Task<NoneT>.FromResult(new NoneT());
+    public static Task<NoneT> None => Task.FromResult(new NoneT());
 }
 
