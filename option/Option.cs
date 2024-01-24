@@ -46,9 +46,9 @@ public sealed class Some<T> : Option<T>
     public unsafe override T UnwrapUnchecked() => val;
 };
 
-public sealed class NoneT<T> : Option<T>
+public class NoneT<T> : Option<T>
 {
-    public static implicit operator NoneT<T>(NoneT n) => new();
+    // public static implicit operator NoneT<T>(NoneT n) => new();
 
     public override T Unwrap() => throw new Exception("Unwrap None");
 
@@ -68,11 +68,14 @@ public sealed class NoneT<T> : Option<T>
 
     public unsafe override T UnwrapUnchecked() => throw new System.Diagnostics.UnreachableException();
 }
-public sealed class NoneT;
+public sealed class NoneT : NoneT<object>
+{
+    public override object UnwrapOr(object alt) => base.UnwrapOr(alt);
+}
 
 public sealed class Prelude
 {
-    public static Some<T> Some<T>(T val) => new Some<T>(val);
+    public static Option<T> Some<T>(T val) => new Some<T>(val);
     public static Task<NoneT> None => Task.FromResult(new NoneT());
 }
 
