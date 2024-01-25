@@ -1,5 +1,6 @@
 namespace Options;
 
+/// <include file='docs.xml' path='namespace[@name="options"]/Option/class/*'/>
 public abstract class Option<T>
 {
     public static implicit operator Option<T>(Task<NoneT> t) => new NoneT<T>();
@@ -11,17 +12,36 @@ public abstract class Option<T>
         _ => throw new Exception()
     };
 
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/IsSome/*'/>
     public abstract bool IsSome();
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/IsSomeAnd/*'/>
     public abstract bool IsSomeAnd(Func<T, bool> f);
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/IsNone/*'/>
     public abstract bool IsNone();
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/AsSpan/*'/>
     public abstract Span<T> AsSpan();
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/Expect/*'/>
     public abstract T Expect(string msg);
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/UnwrapOr/*'/>
     public abstract T UnwrapOr(T alt);
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/UnwrapOrElse/*'/>
     public abstract T UnwrapOrElse(Func<T> f);
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/UnwrapUnchecked/*'/>
     public unsafe abstract T UnwrapUnchecked();
+
+    /// <include file='docs.xml' path='namespace[@name="options"]/Option/Unwrap/*'/>
     public abstract T Unwrap();
+
 }
 
+/// <include file='docs.xml' path='namespace[@name="options"]/Some/class/*'/>
 public sealed class Some<T> : Option<T>
 {
     T val;
@@ -46,6 +66,7 @@ public sealed class Some<T> : Option<T>
     public unsafe override T UnwrapUnchecked() => val;
 };
 
+/// <include file='docs.xml' path='namespace[@name="options"]/NoneT/class/*'/>
 public class NoneT<T> : Option<T>
 {
     // public static implicit operator NoneT<T>(NoneT n) => new();
@@ -68,11 +89,14 @@ public class NoneT<T> : Option<T>
 
     public unsafe override T UnwrapUnchecked() => throw new System.Diagnostics.UnreachableException();
 }
+
+/// <include file='docs.xml' path='namespace[@name="options"]/NoneT_stub/class/*'/>
 public sealed class NoneT : NoneT<object>
 {
     public override object UnwrapOr(object alt) => base.UnwrapOr(alt);
 }
 
+/// <include file='docs.xml' path='namespace[@name="options"]/Prelude/class/*'/>
 public sealed class Prelude
 {
     public static Option<T> Some<T>(T val) => new Some<T>(val);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="options">
+  <Option>
+    <class>
+      <summary>Strong(er) typed optional values</summary>
+      <remarks>
+        May not cover 100% of rust Option&lt;T&gt;, which is intended
+      </remarks>
+    </class>
+    <IsSome>
+      <returns>`true` true if the option is a `Some` value.</returns>
+    </IsSome>
+  </Option>
+  <Some></Some>
+  <NoneT></NoneT>
+  <NoneT_stub></NoneT_stub>
+</namespace>
