@@ -1,0 +1,1 @@
+'<,'>s/^.* \(\i*\)(.*/\/\/\/ <include file='docs.xml' path='namespace=[@name="options"]\/Option\/\1\/*'\/>\r\0\r
